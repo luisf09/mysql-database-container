@@ -1,0 +1,22 @@
+version: "3.8"
+name: mysql_db
+services:
+  mysql_db:
+    container_name: mysql_db
+    image: mysql:8.0
+    env_file: .env
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    restart: always
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./database/data:/var/lib/mysql
+      - ./backups:/backups
+      - ./my.cnf:/etc/my.cnf
+    extra_hosts:
+      - host.docker.internal:host-gateway
